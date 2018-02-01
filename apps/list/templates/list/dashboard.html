@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dashboard</title>
+	<style>
+		table, th, td {
+    		border: 1px solid black;
+		}
+		.other_wish_list {
+			display: block;
+			width: 0 auto;
+			left: 40px;
+			height: 20px;
+			border: 1px solid black;
+			margin: auto;
+		}
+		.your_wish_list {
+			display: block;
+			width: 0 auto;
+			left: 40px;
+			height: 20px;
+			border: 1px solid black;
+			margin: auto;
+		}
+		.add_item {
+			display: block;
+			position: absolute;
+			font-size: 20px;
+			right: 40px;
+		}
+	</style>
+</head>
+<body>
+	<div class="logout">
+		<a href="/logout">Logout</a>
+	</div>
+	<h2>Hello, {{ user.name }}</h2>
+
+	<h5>Your Wish List:</h5>
+	<table class="your_wish_list">
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Added By</th>
+				<th>Date Added</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+	<tbody>
+		<tr>
+			{% for item in items %}
+			<td><a href="/show/{{item.id}}">{{item.name}}</a></td>
+			<td>{{ item.creator }}</td>
+			<td>{{ item.created_at }}</td>
+			<td>
+				{% if request.session.id == item.creator %}
+				<a href="/delete/{{ item.id }}">Delete</a>
+				{% else %}
+				<a href="/"> Remove from my Wishlist</a>
+			
+			{% endfor %}
+		</tr>
+	</tbody>
+	<h5>Other's Wish List:</h5>
+	<table class="other_wish_list">
+		<tr>
+			<th>Item</th>
+			<th>Added By</th>
+			<th>Date Added</th>
+			<th>Action</th>
+		</tr>
+	</table>
+	<tbody>
+	{% for item in items %}
+		<tr>
+			<td><a href="/show/{{item.id}}">{{item.name}}</a></td>
+			<td>{{ item.creator }}</td>
+			<td>{{ item.created_at }}</td>
+			<td>
+			{% if request.session.id == item.creator %}
+				<a href="/delete/{{ item.id }}">Delete</a>
+			{% else %}
+				<a href="/"> Remove from my Wishlist</a>
+			{% endif %}
+			{% endfor %}</td>
+		</tr>
+	</tbody>
+	<div class="add_item">
+		<a href="/add">Add Item</a>
+	</div>
+
+</body>
+</html>
